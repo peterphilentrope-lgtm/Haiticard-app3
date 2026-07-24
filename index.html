@@ -1,14 +1,593 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="HaitiCard - Digital wallet and virtual card for Haiti" />
-    <meta name="theme-color" content="#2563eb" />
-    <title>HaitiCard 🇭🇹</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="HaitiCard — Haiti's first digital wallet. Virtual cards, MonCash integration, and global payments from Port-au-Prince."/>
+<title>HaitiCard — Haiti's First Digital Wallet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+:root{
+  --navy:#002B7F;
+  --navy2:#001a4f;
+  --navy3:#003399;
+  --red:#D21034;
+  --gold:#F5A623;
+  --gold2:#e09510;
+  --black:#080C14;
+  --dark:#0d1420;
+  --dark2:#141c2e;
+  --white:#F0F4FF;
+  --muted:#6B7A99;
+  --border:rgba(240,244,255,0.08);
+  --display:"Space Grotesk",sans-serif;
+  --mono:"DM Mono",monospace;
+}
+body{background:var(--black);color:var(--white);font-family:var(--display);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;background:rgba(8,12,20,0.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:.5rem;font-weight:700;font-size:1.1rem;letter-spacing:-.02em}
+.nav-logo span{color:var(--gold)}
+.nav-flag{font-size:1.2rem}
+.nav-links{display:flex;gap:1.5rem;list-style:none}
+.nav-links a{font-size:.8rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:rgba(240,244,255,.6);transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:var(--navy);color:var(--white);border:none;padding:.6rem 1.25rem;border-radius:6px;font-family:var(--display);font-size:.8rem;font-weight:600;cursor:pointer;transition:background .2s}
+.nav-cta:hover{background:var(--navy3)}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;padding:6rem 2rem 4rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,43,127,0.4) 0%,transparent 70%)}
+.hero-flag-stripe-blue{position:absolute;top:0;left:0;right:0;height:4px;background:var(--navy)}
+.hero-flag-stripe-red{position:absolute;top:4px;left:0;right:0;height:4px;background:var(--red)}
+.hero-inner{max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1}
+.hero-tag{font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.hero-tag::before{content:'';display:block;width:1.5rem;height:1px;background:var(--gold)}
+h1{font-size:clamp(2.5rem,5vw,4.5rem);font-weight:700;line-height:.95;letter-spacing:-.03em;margin-bottom:1.5rem}
+h1 span{color:var(--gold)}
+.hero-desc{font-size:1rem;color:rgba(240,244,255,.6);line-height:1.8;margin-bottom:2rem;max-width:40ch}
+.hero-btns{display:flex;flex-wrap:wrap;gap:.75rem}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 1.75rem;font-family:var(--display);font-size:.82rem;font-weight:600;border-radius:6px;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:var(--navy);color:var(--white)}
+.btn-primary:hover{background:var(--navy3);transform:translateY(-1px)}
+.btn-gold{background:var(--gold);color:var(--black)}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:rgba(240,244,255,.7);border:1px solid var(--border)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+
+/* PHONE MOCKUP */
+.phone-wrap{position:relative;display:flex;justify-content:center}
+.phone{width:240px;background:var(--dark);border-radius:28px;border:2px solid rgba(240,244,255,.1);overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.6)}
+.phone-top-bar{height:28px;background:var(--dark2);display:flex;align-items:center;justify-content:center}
+.phone-notch{width:60px;height:14px;background:var(--dark);border-radius:0 0 10px 10px}
+.phone-screen{padding:16px;background:var(--dark)}
+.phone-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.phone-greeting{font-size:.65rem;color:var(--muted)}
+.phone-name{font-size:.85rem;font-weight:700;color:var(--white)}
+.phone-flag{font-size:1rem}
+.phone-card{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);border-radius:12px;padding:14px;margin-bottom:14px;position:relative;overflow:hidden}
+.phone-card::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:rgba(245,166,35,.1);border-radius:50%}
+.phone-card-label{font-size:.55rem;color:rgba(240,244,255,.5);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.phone-balance{font-size:1.4rem;font-weight:700;color:var(--white);font-family:var(--mono)}
+.phone-card-sub{font-size:.55rem;color:rgba(240,244,255,.5);margin-top:2px}
+.phone-card-type{display:flex;gap:4px;margin-top:10px}
+.phone-chip{width:20px;height:14px;background:var(--gold);border-radius:3px;opacity:.8}
+.phone-brand{font-size:.5rem;font-weight:700;color:rgba(240,244,255,.6);margin-left:auto;align-self:flex-end}
+.phone-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px}
+.phone-action{display:flex;flex-direction:column;align-items:center;gap:4px}
+.phone-action-icon{width:32px;height:32px;background:var(--dark2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+.phone-action-label{font-size:.45rem;color:var(--muted);text-align:center}
+.phone-txn-title{font-size:.6rem;font-weight:600;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.phone-txn{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.phone-txn-icon{width:24px;height:24px;background:var(--dark2);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.65rem}
+.phone-txn-info{flex:1}
+.phone-txn-name{font-size:.6rem;font-weight:600;color:var(--white)}
+.phone-txn-date{font-size:.5rem;color:var(--muted)}
+.phone-txn-amount{font-size:.65rem;font-weight:700;font-family:var(--mono)}
+.green{color:#4CAF50}
+.red-text{color:var(--red)}
+.phone-bottom{height:20px;background:var(--dark2);display:flex;align-items:center;justify-content:center;gap:16px;padding:0 16px}
+.phone-nav-dot{width:20px;height:3px;border-radius:2px;background:rgba(240,244,255,.2)}
+.phone-nav-dot.active{background:var(--gold)}
+
+/* TICKER */
+.ticker{background:var(--navy);padding:.6rem 0;overflow:hidden;white-space:nowrap}
+.ticker-inner{display:inline-block;animation:ticker 25s linear infinite;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(240,244,255,.8)}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* SECTIONS */
+.section{padding:7rem 0}
+.wrap{max-width:1100px;margin:0 auto;padding:0 2rem}
+.eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+.eyebrow::before{content:'';display:block;width:1.5rem;height:1px;background:var(--gold)}
+h2{font-family:var(--display);font-size:clamp(1.8rem,3.5vw,3rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;color:var(--white)}
+h2 em{font-style:normal;color:var(--gold)}
+
+/* FEATURES */
+#features{background:var(--dark)}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:4rem}
+.feature-card{background:var(--dark);padding:2.5rem 2rem;transition:background .2s}
+.feature-card:hover{background:var(--dark2)}
+.feature-icon{font-size:2rem;margin-bottom:1rem;display:block}
+.feature-title{font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.5rem}
+.feature-desc{font-size:.85rem;color:var(--muted);line-height:1.7}
+
+/* PRICING */
+#pricing{background:var(--black)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem}
+.pricing-card{background:var(--dark);border:1px solid var(--border);border-radius:12px;padding:2rem;position:relative;transition:border-color .2s}
+.pricing-card:hover{border-color:var(--gold)}
+.pricing-card.featured{border-color:var(--navy);background:linear-gradient(135deg,var(--navy2) 0%,var(--dark) 100%)}
+.pricing-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--black);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .8rem;border-radius:20px}
+.pricing-tier{font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.pricing-price{font-size:2.5rem;font-weight:700;font-family:var(--mono);color:var(--white);margin-bottom:.25rem}
+.pricing-price span{font-size:.85rem;color:var(--muted);font-family:var(--display);font-weight:400}
+.pricing-limit{font-size:.8rem;color:var(--muted);margin-bottom:1.5rem}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem}
+.pricing-features li{font-size:.82rem;color:rgba(240,244,255,.7);display:flex;align-items:center;gap:.5rem}
+.pricing-features li::before{content:'✓';color:var(--gold);font-weight:700;font-size:.9rem}
+
+/* FEES */
+#fees{background:var(--dark)}
+.fees-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:3rem}
+.fee-card{background:var(--black);border:1px solid var(--border);border-radius:10px;padding:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.fee-name{font-size:.9rem;font-weight:600;color:var(--white)}
+.fee-desc{font-size:.75rem;color:var(--muted);margin-top:.2rem}
+.fee-amount{font-size:1.1rem;font-weight:700;font-family:var(--mono);color:var(--gold)}
+
+/* REFERRAL */
+#referral{background:var(--black)}
+.referral-box{background:linear-gradient(135deg,var(--navy2) 0%,var(--dark2) 100%);border:1px solid rgba(0,43,127,.4);border-radius:16px;padding:3rem;text-align:center;margin-top:3rem}
+.referral-code{font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--gold);letter-spacing:.15em;background:rgba(0,0,0,.3);padding:.75rem 2rem;border-radius:8px;display:inline-block;margin:1.5rem 0;border:1px solid rgba(245,166,35,.3)}
+.referral-bonus{display:flex;justify-content:center;gap:3rem;margin-top:1.5rem}
+.bonus-item{text-align:center}
+.bonus-amount{font-size:2rem;font-weight:700;font-family:var(--mono);color:var(--gold)}
+.bonus-label{font-size:.75rem;color:var(--muted);margin-top:.3rem}
+
+/* DEALS */
+#deals{background:var(--dark)}
+.deals-filter{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem}
+.filter-btn{padding:.4rem 1rem;border-radius:20px;font-size:.75rem;font-weight:500;border:1px solid var(--border);background:transparent;color:rgba(240,244,255,.6);cursor:pointer;transition:all .2s;font-family:var(--display)}
+.filter-btn:hover,.filter-btn.active{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.deals-search{width:100%;padding:.75rem 1rem;background:var(--dark2);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:var(--display);font-size:.9rem;margin-bottom:1.5rem;outline:none}
+.deals-search:focus{border-color:var(--gold)}
+.deals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.deal-card{background:var(--black);border:1px solid var(--border);border-radius:10px;padding:1.25rem;transition:border-color .2s}
+.deal-card:hover{border-color:var(--gold)}
+.deal-icon{font-size:1.5rem;margin-bottom:.75rem;display:block}
+.deal-title{font-size:.9rem;font-weight:700;color:var(--white);margin-bottom:.3rem}
+.deal-desc{font-size:.75rem;color:var(--muted);line-height:1.6;margin-bottom:1rem}
+.deal-btns{display:flex;gap:.5rem}
+.deal-btn{flex:1;padding:.4rem .5rem;border-radius:6px;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--display);text-align:center}
+.deal-btn-open{background:var(--navy);color:var(--white);border:none}
+.deal-btn-open:hover{background:var(--navy3)}
+.deal-btn-copy{background:transparent;color:var(--gold);border:1px solid rgba(245,166,35,.3)}
+.deal-btn-copy:hover{background:rgba(245,166,35,.1)}
+
+/* ABOUT */
+#about{background:var(--black)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-info{display:flex;flex-direction:column;gap:.75rem;margin-top:2rem}
+.about-row{display:flex;align-items:center;gap:1rem;padding:.75rem;background:var(--dark);border-radius:8px;border:1px solid var(--border)}
+.about-label{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);min-width:80px}
+.about-value{font-size:.85rem;color:var(--white)}
+.about-value a{color:var(--gold)}
+
+/* CTA */
+#cta{background:linear-gradient(135deg,var(--navy2) 0%,var(--black) 100%);padding:6rem 0;text-align:center;border-top:1px solid rgba(0,43,127,.3)}
+
+/* FOOTER */
+footer{background:var(--dark);padding:2rem 0;border-top:1px solid var(--border)}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-weight:700;font-size:.9rem;color:rgba(240,244,255,.4)}
+.footer-links{display:flex;gap:1.5rem;list-style:none}
+.footer-links a{font-size:.72rem;color:rgba(240,244,255,.3);transition:color .2s}
+.footer-links a:hover{color:var(--gold)}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--navy);color:var(--white);padding:.75rem 1.5rem;border-radius:8px;font-size:.85rem;font-weight:500;transition:transform .3s;z-index:999;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:1rem}
+  .nav-links{display:none}
+  .hero-inner,.about-grid{grid-template-columns:1fr;gap:3rem}
+  .phone-wrap{display:none}
+  .features-grid,.pricing-grid,.deals-grid{grid-template-columns:1fr}
+  .fees-grid{grid-template-columns:1fr}
+  .referral-bonus{gap:1.5rem}
+  .wrap{padding:0 1.5rem}
+  .section{padding:5rem 0}
+}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Link copied!</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span class="nav-flag">🇭🇹</span> Haiti<span>Card</span></div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Plans</a></li>
+    <li><a href="#fees">Fees</a></li>
+    <li><a href="#deals">Deals</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <button class="btn nav-cta" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Get Your Card</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-flag-stripe-blue"></div>
+  <div class="hero-flag-stripe-red"></div>
+  <div class="hero-inner wrap">
+    <div class="hero-left">
+      <div class="hero-tag">Port-au-Prince, Haiti 🇭🇹</div>
+      <h1>Haiti's First<br><span>Digital Wallet</span></h1>
+      <p class="hero-desc">Virtual Visa & Mastercard cards. MonCash integration. International payments. Built for 11 million Haitians who deserve access to the global economy.</p>
+      <div class="hero-btns">
+        <a href="#apply" class="btn btn-gold">Get Your Free Card →</a>
+        <a href="https://www.gofundme.com/f/haiticard-financial-freedom-for-haiti" target="_blank" class="btn btn-outline">Support HaitiCard</a>
+      </div>
+    </div>
+    <div class="phone-wrap reveal delay-2">
+      <div class="phone">
+        <div class="phone-top-bar"><div class="phone-notch"></div></div>
+        <div class="phone-screen">
+          <div class="phone-header">
+            <div>
+              <div class="phone-greeting">Bonjour 👋</div>
+              <div class="phone-name">Jean-Baptiste Val</div>
+            </div>
+            <div class="phone-flag">🇭🇹</div>
+          </div>
+          <div class="phone-card">
+            <div class="phone-card-label">Wallet Balance</div>
+            <div class="phone-balance">$385.50</div>
+            <div class="phone-card-sub">≈ 51,078.75 HTG • Rate: 132.5</div>
+            <div class="phone-card-type">
+              <div class="phone-chip"></div>
+              <div class="phone-brand">VISA PLATINUM</div>
+            </div>
+          </div>
+          <div class="phone-actions">
+            <div class="phone-action"><div class="phone-action-icon">📤</div><div class="phone-action-label">Send</div></div>
+            <div class="phone-action"><div class="phone-action-icon">📥</div><div class="phone-action-label">Receive</div></div>
+            <div class="phone-action"><div class="phone-action-icon">📱</div><div class="phone-action-label">MonCash</div></div>
+            <div class="phone-action"><div class="phone-action-icon">🌍</div><div class="phone-action-label">Remit</div></div>
+          </div>
+          <div class="phone-txn-title">Recent Transactions</div>
+          <div class="phone-txn">
+            <div class="phone-txn-icon">🌐</div>
+            <div class="phone-txn-info"><div class="phone-txn-name">Remittance Received</div><div class="phone-txn-date">Today</div></div>
+            <div class="phone-txn-amount green">+$200</div>
+          </div>
+          <div class="phone-txn">
+            <div class="phone-txn-icon">📱</div>
+            <div class="phone-txn-info"><div class="phone-txn-name">MonCash Cashout</div><div class="phone-txn-date">Yesterday</div></div>
+            <div class="phone-txn-amount red-text">-$50</div>
+          </div>
+        </div>
+        <div class="phone-bottom">
+          <div class="phone-nav-dot active"></div>
+          <div class="phone-nav-dot"></div>
+          <div class="phone-nav-dot"></div>
+          <div class="phone-nav-dot"></div>
+          <div class="phone-nav-dot"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">Virtual Cards &nbsp;·&nbsp; MonCash Integration &nbsp;·&nbsp; NatCash Cashout &nbsp;·&nbsp; International Remittances &nbsp;·&nbsp; P2P Transfers &nbsp;·&nbsp; QR Payments &nbsp;·&nbsp; 3D Secure &nbsp;·&nbsp; USD ↔ HTG &nbsp;·&nbsp; Haiti's First Digital Wallet 🇭🇹 &nbsp;·&nbsp; Virtual Cards &nbsp;·&nbsp; MonCash Integration &nbsp;·&nbsp; NatCash Cashout &nbsp;·&nbsp; International Remittances &nbsp;·&nbsp; P2P Transfers &nbsp;·&nbsp; QR Payments &nbsp;·&nbsp; 3D Secure &nbsp;·&nbsp; USD ↔ HTG &nbsp;·&nbsp; Haiti's First Digital Wallet 🇭🇹 &nbsp;·&nbsp;</div>
+</div>
+
+<!-- FEATURES -->
+<section id="features" class="section">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">What HaitiCard Does</div>
+      <h2>Everything you need.<br><em>Nothing you don't.</em></h2>
+    </div>
+    <div class="features-grid reveal">
+      <div class="feature-card"><span class="feature-icon">💳</span><div class="feature-title">Virtual Visa & Mastercard</div><div class="feature-desc">Instant virtual card issuance. Standard, Gold, and Platinum tiers. Shop on Amazon, Netflix, Spotify, Airbnb, and any online store worldwide.</div></div>
+      <div class="feature-card"><span class="feature-icon">📱</span><div class="feature-title">MonCash & NatCash Cashout</div><div class="feature-desc">Instant transfer to Digicel MonCash or Natcom NatCash. Live USD to HTG conversion with transparent fee calculator before you confirm.</div></div>
+      <div class="feature-card"><span class="feature-icon">🌍</span><div class="feature-title">International Remittances</div><div class="feature-desc">Claim money transfers from USA, Canada, France, Chile, and Dominican Republic directly into your HaitiCard wallet. No middleman.</div></div>
+      <div class="feature-card"><span class="feature-icon">🔄</span><div class="feature-title">P2P Transfers</div><div class="feature-desc">Send money instantly to any other HaitiCard user via @username tag or QR code. Split bills. Pay friends. Fast and free for Platinum users.</div></div>
+      <div class="feature-card"><span class="feature-icon">🔒</span><div class="feature-title">3D Secure Protection</div><div class="feature-desc">OTP verification on every transaction. Instant card freeze with one tap. Unmask card details only when you need them.</div></div>
+      <div class="feature-card"><span class="feature-icon">💱</span><div class="feature-title">USD ↔ HTG Toggle</div><div class="feature-desc">One tap switches your entire wallet view between US Dollars and Haitian Gourdes. Live exchange rate always visible.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="section">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Card Plans</div>
+      <h2>Start free. <em>Upgrade anytime.</em></h2>
+    </div>
+    <div class="pricing-grid reveal">
+      <div class="pricing-card">
+        <div class="pricing-tier">Standard</div>
+        <div class="pricing-price">$0<span>/month</span></div>
+        <div class="pricing-limit">$1,000 monthly limit</div>
+        <ul class="pricing-features">
+          <li>Virtual Visa or Mastercard</li>
+          <li>MonCash & NatCash cashout</li>
+          <li>International remittances</li>
+          <li>P2P transfers ($0.25 fee)</li>
+          <li>QR code payments</li>
+          <li>Transaction history</li>
+        </ul>
+        <button class="btn btn-outline" style="width:100%" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Get Started Free</button>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-tier">Gold</div>
+        <div class="pricing-price">$2<span>/month</span></div>
+        <div class="pricing-limit">$3,000 monthly limit</div>
+        <ul class="pricing-features">
+          <li>Everything in Standard</li>
+          <li>0.5% cashback on purchases</li>
+          <li>Higher transaction limits</li>
+          <li>Priority support</li>
+          <li>Gold card design</li>
+          <li>Advanced analytics</li>
+        </ul>
+        <button class="btn btn-gold" style="width:100%" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Get Gold Card</button>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-tier">Platinum</div>
+        <div class="pricing-price">$5<span>/month</span></div>
+        <div class="pricing-limit">$10,000 monthly limit</div>
+        <ul class="pricing-features">
+          <li>Everything in Gold</li>
+          <li>1% cashback on purchases</li>
+          <li>5 free P2P transfers/month</li>
+          <li>Virtual US bank account</li>
+          <li>SWIFT/BIC for wire transfers</li>
+          <li>Platinum card design</li>
+        </ul>
+        <button class="btn btn-primary" style="width:100%" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Get Platinum Card</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEES -->
+<section id="fees" class="section">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Transparent Fees</div>
+      <h2>No surprises. <em>Ever.</em></h2>
+    </div>
+    <div class="fees-grid reveal">
+      <div class="fee-card"><div><div class="fee-name">MonCash Cashout</div><div class="fee-desc">Instant transfer to your MonCash account</div></div><div class="fee-amount">1%</div></div>
+      <div class="fee-card"><div><div class="fee-name">NatCash Cashout</div><div class="fee-desc">Instant transfer to your NatCash account</div></div><div class="fee-amount">1%</div></div>
+      <div class="fee-card"><div><div class="fee-name">P2P Transfer</div><div class="fee-desc">Send to another HaitiCard user (free for Platinum)</div></div><div class="fee-amount">$0.25</div></div>
+      <div class="fee-card"><div><div class="fee-name">Remittance Claim</div><div class="fee-desc">Receive international money transfers</div></div><div class="fee-amount">0.5%</div></div>
+      <div class="fee-card"><div><div class="fee-name">Virtual Card Purchase</div><div class="fee-desc">Online shopping with your HaitiCard</div></div><div class="fee-amount">0.5%</div></div>
+      <div class="fee-card"><div><div class="fee-name">Card Issuance</div><div class="fee-desc">Get your first virtual card</div></div><div class="fee-amount">FREE</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERRAL -->
+<section id="referral" class="section">
+  <div class="wrap reveal">
+    <div class="eyebrow">Referral Program</div>
+    <h2>Invite friends. <em>Both get $1.</em></h2>
+    <div class="referral-box">
+      <p style="color:rgba(240,244,255,.6);margin-bottom:.5rem">Share your referral code with friends</p>
+      <div class="referral-code" id="refCode">HAITI-PETE</div>
+      <p style="font-size:.85rem;color:rgba(240,244,255,.6);margin-bottom:1.5rem">When a friend signs up with your code — you both get $1 credited to your wallet</p>
+      <button class="btn btn-gold" onclick="shareReferral()">Share via WhatsApp 📲</button>
+      <div class="referral-bonus">
+        <div class="bonus-item"><div class="bonus-amount">$1</div><div class="bonus-label">You receive</div></div>
+        <div class="bonus-item"><div class="bonus-amount">$1</div><div class="bonus-label">Friend receives</div></div>
+        <div class="bonus-item"><div class="bonus-amount">∞</div><div class="bonus-label">No limit</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEALS -->
+<section id="deals" class="section">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow">Deals & Partners</div>
+      <h2>Shop global. <em>Pay Haitian.</em></h2>
+    </div>
+    <div style="margin-top:2.5rem">
+      <input type="text" class="deals-search" placeholder="Search deals..." id="dealSearch" oninput="filterDeals()"/>
+      <div class="deals-filter" id="dealFilters">
+        <button class="filter-btn active" onclick="filterByCategory('all',this)">All</button>
+        <button class="filter-btn" onclick="filterByCategory('donate',this)">Donate</button>
+        <button class="filter-btn" onclick="filterByCategory('finance',this)">Finance</button>
+        <button class="filter-btn" onclick="filterByCategory('shopping',this)">Shopping</button>
+        <button class="filter-btn" onclick="filterByCategory('entertainment',this)">Entertainment</button>
+        <button class="filter-btn" onclick="filterByCategory('business',this)">Business</button>
+        <button class="filter-btn" onclick="filterByCategory('work',this)">Work</button>
+      </div>
+      <div class="deals-grid" id="dealsGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLY -->
+<section id="apply" class="section" style="background:var(--dark)">
+  <div class="wrap reveal" style="text-align:center">
+    <div class="eyebrow">Get Started</div>
+    <h2>Apply in <em>2 minutes.</em></h2>
+    <p style="color:var(--muted);margin:1rem 0 2.5rem;font-size:1rem">Get your virtual card and start shopping globally from Haiti today.</p>
+    <div style="display:flex;flex-direction:column;gap:1rem;max-width:400px;margin:0 auto">
+      <input type="text" placeholder="Full name" style="padding:.85rem 1rem;background:var(--dark2);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:var(--display);font-size:.9rem;outline:none"/>
+      <input type="tel" placeholder="MonCash phone number" style="padding:.85rem 1rem;background:var(--dark2);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:var(--display);font-size:.9rem;outline:none"/>
+      <input type="email" placeholder="Email address" style="padding:.85rem 1rem;background:var(--dark2);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:var(--display);font-size:.9rem;outline:none"/>
+      <select style="padding:.85rem 1rem;background:var(--dark2);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:var(--display);font-size:.9rem;outline:none">
+        <option>Standard Card (Free)</option>
+        <option>Gold Card ($2/month)</option>
+        <option>Platinum Card ($5/month)</option>
+      </select>
+      <button class="btn btn-gold" style="width:100%;justify-content:center;font-size:.9rem" onclick="submitApplication()">Apply for My Card →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="wrap">
+    <div class="about-grid reveal">
+      <div>
+        <div class="eyebrow">About HaitiCard</div>
+        <h2>Built in Haiti.<br><em>For Haiti.</em></h2>
+        <p style="color:var(--muted);margin-top:1rem;line-height:1.8;font-size:.95rem">HaitiCard is Haiti's first digital wallet — giving 11 million Haitians access to virtual Visa and Mastercard cards, international money reception, and MonCash integration. Built from Port-au-Prince by a Haitian entrepreneur.</p>
+      </div>
+      <div class="about-info">
+        <div class="about-row"><div class="about-label">Founder</div><div class="about-value">Pete Philentrope</div></div>
+        <div class="about-row"><div class="about-label">Website</div><div class="about-value"><a href="https://peterphilentrope.com" target="_blank">peterphilentrope.com</a></div></div>
+        <div class="about-row"><div class="about-label">Foundation</div><div class="about-value"><a href="https://fatherleaderfoundation.org" target="_blank">fatherleaderfoundation.org</a></div></div>
+        <div class="about-row"><div class="about-label">Email</div><div class="about-value"><a href="mailto:pete@fatherleaderfoundation.org">pete@fatherleaderfoundation.org</a></div></div>
+        <div class="about-row"><div class="about-label">TikTok</div><div class="about-value"><a href="https://tiktok.com/@peterphilentrope" target="_blank">@peterphilentrope</a></div></div>
+        <div class="about-row"><div class="about-label">Book</div><div class="about-value"><a href="https://www.amazon.com/dp/B0H6PPPPXM" target="_blank">Side Hustle to Success</a></div></div>
+        <div class="about-row"><div class="about-label">Mission</div><div class="about-value">Financial freedom for Haiti 🇭🇹</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="wrap reveal" style="text-align:center">
+    <h2>Financial freedom<br><em>starts here.</em></h2>
+    <p style="color:var(--muted);margin:1.5rem 0 2rem;font-size:1rem">Join thousands of Haitians already on the waitlist.</p>
+    <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:1rem">
+      <a href="#apply" class="btn btn-gold">Get Your Free Card →</a>
+      <a href="https://www.gofundme.com/f/haiticard-financial-freedom-for-haiti" target="_blank" class="btn btn-outline">Support HaitiCard</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-logo">🇭🇹 HaitiCard · Port-au-Prince, Haiti · pete@fatherleaderfoundation.org</div>
+      <ul class="footer-links">
+        <li><a href="https://fatherleaderfoundation.org" target="_blank">Foundation</a></li>
+        <li><a href="https://peterphilentrope.com" target="_blank">Pete</a></li>
+        <li><a href="https://www.amazon.com/dp/B0H6PPPPXM" target="_blank">Book</a></li>
+        <li><a href="https://www.gofundme.com/f/haiticard-financial-freedom-for-haiti" target="_blank">GoFundMe</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+// DEALS DATA
+const deals = [
+  {icon:'❤️',title:'Donate via PayPal',desc:'Support HaitiCard or FatherLeader Foundation directly',url:'https://www.paypal.com/donate/?business=peterphilentrope%40gmail.com&currency_code=USD',cat:'donate'},
+  {icon:'🏫',title:'FatherLeader Foundation',desc:'Keep a Haitian child in school — $70 changes a life',url:'https://www.gofundme.com/f/keep-a-haitian-child-in-school-fatherleader-foundation',cat:'donate'},
+  {icon:'💳',title:'HaitiCard GoFundMe',desc:'Support Haiti\'s first digital wallet',url:'https://www.gofundme.com/f/haiticard-financial-freedom-for-haiti',cat:'donate'},
+  {icon:'📚',title:'Side Hustle to Success',desc:'eBook $4.99 · Paperback $12.99 · by Peter Philentrope',url:'https://www.amazon.com/dp/B0H6PPPPXM',cat:'shopping'},
+  {icon:'💸',title:'Wise Money Transfer',desc:'Send money internationally at the lowest fees',url:'https://wise.com/invite/ahpc/peterp444',cat:'finance'},
+  {icon:'🛍️',title:'Amazon Shopping',desc:'Shop globally using your HaitiCard virtual card',url:'https://amazon.com',cat:'shopping'},
+  {icon:'🎬',title:'Netflix',desc:'Subscribe to Netflix with your HaitiCard virtual card',url:'https://netflix.com',cat:'entertainment'},
+  {icon:'🎵',title:'Spotify Premium',desc:'Get ad-free music with your HaitiCard',url:'https://spotify.com',cat:'entertainment'},
+  {icon:'✈️',title:'Airbnb',desc:'Book travel and accommodations globally',url:'https://airbnb.com',cat:'shopping'},
+  {icon:'🏪',title:'Shopify',desc:'Start your online store and accept card payments',url:'https://shopify.com',cat:'business'},
+  {icon:'💼',title:'Upwork',desc:'Find remote work and get paid internationally',url:'https://upwork.com',cat:'work'},
+];
+
+let activeCategory = 'all';
+
+function renderDeals(list) {
+  const grid = document.getElementById('dealsGrid');
+  grid.innerHTML = list.map(d => `
+    <div class="deal-card" data-cat="${d.cat}">
+      <span class="deal-icon">${d.icon}</span>
+      <div class="deal-title">${d.title}</div>
+      <div class="deal-desc">${d.desc}</div>
+      <div class="deal-btns">
+        <a href="${d.url}" target="_blank" class="deal-btn deal-btn-open">Open Link</a>
+        <button class="deal-btn deal-btn-copy" onclick="copyLink('${d.url}',this)">Copy Link</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterByCategory(cat, btn) {
+  activeCategory = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterDeals();
+}
+
+function filterDeals() {
+  const q = document.getElementById('dealSearch').value.toLowerCase();
+  const filtered = deals.filter(d => {
+    const matchCat = activeCategory === 'all' || d.cat === activeCategory;
+    const matchQ = !q || d.title.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+  renderDeals(filtered);
+}
+
+function copyLink(url, btn) {
+  navigator.clipboard.writeText(url).then(() => {
+    btn.textContent = 'Copied!';
+    showToast('Link copied!');
+    setTimeout(() => btn.textContent = 'Copy Link', 2000);
+  });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function shareReferral() {
+  const text = "Join HaitiCard — Haiti's first digital wallet! Use my referral code HAITI-PETE and we both get $1. Try it at https://haiticard-app3-pl9m.vercel.app";
+  if (navigator.share) {
+    navigator.share({title:'HaitiCard Referral', text});
+  } else {
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`,'_blank');
+  }
+}
+
+function submitApplication() {
+  showToast('Application received! We\'ll contact you via WhatsApp.');
+}
+
+// Init
+renderDeals(deals);
+
+// Reveal on scroll
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+},{rootMargin:'0px 0px -60px 0px'});
+reveals.forEach(r => io.observe(r));
+</script>
+</body>
 </html>
