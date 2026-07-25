@@ -209,6 +209,15 @@ footer{background:var(--dark);padding:2rem 0;border-top:1px solid var(--border)}
   .wrap{padding:0 1.5rem}
   .section{padding:5rem 0}
 }
+
+.lang-toggle{display:flex;align-items:center;gap:.4rem}
+.lang-btn{background:transparent;border:1px solid rgba(240,244,255,.2);color:rgba(240,244,255,.6);padding:.3rem .6rem;border-radius:4px;font-size:.7rem;font-weight:600;cursor:pointer;font-family:var(--display);transition:all .2s;letter-spacing:.05em}
+.lang-btn:hover,.lang-btn.active{background:var(--navy);border-color:var(--gold);color:var(--gold)}
+[data-lang]{display:none}
+[data-lang].active{display:block}
+span[data-lang]{display:none}
+span[data-lang].active{display:inline}
+
 </style>
 </head>
 <body>
@@ -226,7 +235,13 @@ footer{background:var(--dark);padding:2rem 0;border-top:1px solid var(--border)}
     <li><a href="#deals">Deals</a></li>
     <li><a href="#about">About</a></li>
   </ul>
-  <button class="btn nav-cta" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Get Your Card</button>
+  
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('en')" id="btn-en">🇺🇸 EN</button>
+        <button class="lang-btn" onclick="setLang('fr')" id="btn-fr">🇫🇷 FR</button>
+        <button class="lang-btn" onclick="setLang('ht')" id="btn-ht">🇭🇹 HT</button>
+      </div>
+      <button class="btn nav-cta" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Get Your Card</button>
 </nav>
 
 <!-- HERO -->
@@ -237,8 +252,16 @@ footer{background:var(--dark);padding:2rem 0;border-top:1px solid var(--border)}
   <div class="hero-inner wrap">
     <div class="hero-left">
       <div class="hero-tag">Port-au-Prince, Haiti 🇭🇹</div>
-      <h1>Haiti's First<br><span>Digital Wallet</span></h1>
-      <p class="hero-desc">Virtual Visa & Mastercard cards. MonCash integration. International payments. Built for 11 million Haitians who deserve access to the global economy.</p>
+      <h1>
+  <span data-lang="en" class="active">Haiti's First<br><span>Digital Wallet</span></span>
+  <span data-lang="fr">Le Premier<br><span>Portefeuille Numérique</span> d'Haïti</span>
+  <span data-lang="ht">Premye<br><span>Pòtfèy Nimerik</span> Ayiti</span>
+</h1>
+      <p class="hero-desc">
+  <span data-lang="en" class="active">Virtual Visa & Mastercard cards. MonCash integration. International payments. Built for 11 million Haitians who deserve access to the global economy.</span>
+  <span data-lang="fr">Cartes Visa & Mastercard virtuelles. Intégration MonCash. Paiements internationaux. Conçu pour 11 millions d'Haïtiens qui méritent l'accès à l'économie mondiale.</span>
+  <span data-lang="ht">Kat Visa & Mastercard vityèl. Entegrasyon MonCash. Peman entènasyonal. Bati pou 11 milyon Ayisyen ki merite aksè nan ekonomi mondyal la.</span>
+</p>
       <div class="hero-btns">
         <a href="#apply" class="btn btn-gold">Get Your Free Card →</a>
         <a href="https://www.gofundme.com/f/haiticard-financial-freedom-for-haiti" target="_blank" class="btn btn-outline">Support HaitiCard</a>
@@ -304,7 +327,11 @@ footer{background:var(--dark);padding:2rem 0;border-top:1px solid var(--border)}
   <div class="wrap">
     <div class="reveal">
       <div class="eyebrow">What HaitiCard Does</div>
-      <h2>Everything you need.<br><em>Nothing you don't.</em></h2>
+      <h2>
+  <span data-lang="en" class="active">Everything you need.<br><em>Nothing you don't.</em></span>
+  <span data-lang="fr">Tout ce dont vous avez besoin.<br><em>Rien de plus.</em></span>
+  <span data-lang="ht">Tout sa ou bezwen.<br><em>Pa anyen anplis.</em></span>
+</h2>
     </div>
     <div class="features-grid reveal">
       <div class="feature-card"><span class="feature-icon">💳</span><div class="feature-title">Virtual Visa & Mastercard</div><div class="feature-desc">Instant virtual card issuance. Standard, Gold, and Platinum tiers. Shop on Amazon, Netflix, Spotify, Airbnb, and any online store worldwide.</div></div>
@@ -322,7 +349,11 @@ footer{background:var(--dark);padding:2rem 0;border-top:1px solid var(--border)}
   <div class="wrap">
     <div class="reveal">
       <div class="eyebrow">Card Plans</div>
-      <h2>Start free. <em>Upgrade anytime.</em></h2>
+      <h2>
+  <span data-lang="en" class="active">Start free. <em>Upgrade anytime.</em></span>
+  <span data-lang="fr">Commencez gratuitement. <em>Mettez à niveau quand vous voulez.</em></span>
+  <span data-lang="ht">Kòmanse gratis. <em>Amelyore nenpòt ki lè.</em></span>
+</h2>
     </div>
     <div class="pricing-grid reveal">
       <div class="pricing-card">
@@ -377,7 +408,11 @@ footer{background:var(--dark);padding:2rem 0;border-top:1px solid var(--border)}
   <div class="wrap">
     <div class="reveal">
       <div class="eyebrow">Transparent Fees</div>
-      <h2>No surprises. <em>Ever.</em></h2>
+      <h2>
+  <span data-lang="en" class="active">No surprises. <em>Ever.</em></span>
+  <span data-lang="fr">Pas de surprises. <em>Jamais.</em></span>
+  <span data-lang="ht">Pa gen sipriz. <em>Janm.</em></span>
+</h2>
     </div>
     <div class="fees-grid reveal">
       <div class="fee-card"><div><div class="fee-name">MonCash Cashout</div><div class="fee-desc">Instant transfer to your MonCash account</div></div><div class="fee-amount">1%</div></div>
@@ -394,7 +429,11 @@ footer{background:var(--dark);padding:2rem 0;border-top:1px solid var(--border)}
 <section id="referral" class="section">
   <div class="wrap reveal">
     <div class="eyebrow">Referral Program</div>
-    <h2>Invite friends. <em>Both get $1.</em></h2>
+    <h2>
+  <span data-lang="en" class="active">Invite friends. <em>Both get $1.</em></span>
+  <span data-lang="fr">Invitez des amis. <em>Chacun reçoit 1$.</em></span>
+  <span data-lang="ht">Envite zanmi. <em>Toude resevwa $1.</em></span>
+</h2>
     <div class="referral-box">
       <p style="color:rgba(240,244,255,.6);margin-bottom:.5rem">Share your referral code with friends</p>
       <div class="referral-code" id="refCode">HAITI-PETE</div>
@@ -458,7 +497,11 @@ footer{background:var(--dark);padding:2rem 0;border-top:1px solid var(--border)}
     <div class="about-grid reveal">
       <div>
         <div class="eyebrow">About HaitiCard</div>
-        <h2>Built in Haiti.<br><em>For Haiti.</em></h2>
+        <h2>
+  <span data-lang="en" class="active">Built in Haiti.<br><em>For Haiti.</em></span>
+  <span data-lang="fr">Construit en Haïti.<br><em>Pour Haïti.</em></span>
+  <span data-lang="ht">Bati an Ayiti.<br><em>Pou Ayiti.</em></span>
+</h2>
         <p style="color:var(--muted);margin-top:1rem;line-height:1.8;font-size:.95rem">HaitiCard is Haiti's first digital wallet — giving 11 million Haitians access to virtual Visa and Mastercard cards, international money reception, and MonCash integration. Built from Port-au-Prince by a Haitian entrepreneur.</p>
       </div>
       <div class="about-info">
@@ -477,7 +520,11 @@ footer{background:var(--dark);padding:2rem 0;border-top:1px solid var(--border)}
 <!-- CTA -->
 <section id="cta">
   <div class="wrap reveal" style="text-align:center">
-    <h2>Financial freedom<br><em>starts here.</em></h2>
+    <h2>
+  <span data-lang="en" class="active">Financial freedom<br><em>starts here.</em></span>
+  <span data-lang="fr">La liberté financière<br><em>commence ici.</em></span>
+  <span data-lang="ht">Libète finansyè<br><em>kòmanse isit la.</em></span>
+</h2>
     <p style="color:var(--muted);margin:1.5rem 0 2rem;font-size:1rem">Join thousands of Haitians already on the waitlist.</p>
     <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:1rem">
       <a href="#apply" class="btn btn-gold">Get Your Free Card →</a>
@@ -505,7 +552,7 @@ footer{background:var(--dark);padding:2rem 0;border-top:1px solid var(--border)}
 // DEALS DATA
 const deals = [
   {icon:'❤️',title:'Donate via PayPal',desc:'Support HaitiCard or FatherLeader Foundation directly',url:'https://www.paypal.com/donate/?business=peterphilentrope%40gmail.com&currency_code=USD',cat:'donate'},
-  {icon:'🏫',title:'FatherLeader Foundation',desc:'Keep a Haitian child in school — $70 changes a life',url:'https://www.gofundme.com/f/keep-a-haitian-child-in-school-fatherleader-foundation',cat:'donate'},
+  {icon:'🏫',title:'FatherLeader Foundation',desc:'Cover a Haitian child's remaining school balance — $70 gets them back in class',url:'https://www.gofundme.com/f/keep-a-haitian-child-in-school-fatherleader-foundation',cat:'donate'},
   {icon:'💳',title:'HaitiCard GoFundMe',desc:'Support Haiti\'s first digital wallet',url:'https://www.gofundme.com/f/haiticard-financial-freedom-for-haiti',cat:'donate'},
   {icon:'📚',title:'Side Hustle to Success',desc:'eBook $4.99 · Paperback $12.99 · by Peter Philentrope',url:'https://www.amazon.com/dp/B0H6PPPPXM',cat:'shopping'},
   {icon:'💸',title:'Wise Money Transfer',desc:'Send money internationally at the lowest fees',url:'https://wise.com/invite/ahpc/peterp444',cat:'finance'},
@@ -590,5 +637,20 @@ const io = new IntersectionObserver(entries => {
 reveals.forEach(r => io.observe(r));
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
+
+<script>
+function setLang(lang){
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('btn-'+lang).classList.add('active');
+  document.querySelectorAll('[data-lang]').forEach(el=>{
+    el.classList.remove('active');
+    if(el.getAttribute('data-lang')===lang) el.classList.add('active');
+  });
+  localStorage.setItem('hcLang',lang);
+}
+document.addEventListener('DOMContentLoaded',function(){
+  setLang(localStorage.getItem('hcLang')||'en');
+});
+</script>
 </body>
 </html>
